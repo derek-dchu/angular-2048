@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('Game', [])
-.service('GameManager', function() {
+.service('GameManager', ['GridService', function(GridService) {
         // Create a new game
         this.newGame = function() {};
         // Handle user action
@@ -9,5 +9,7 @@ angular.module('Game', [])
         // Update the score
         this.updateScore = function() {};
         // Check is there any move left
-        this.moveAvailable = function() {};
-    });
+        this.moveAvailable = function() {
+                return GridService.anyCellsAvailable() || GridService.tileMatchesAvailable();
+        };
+    }]);
