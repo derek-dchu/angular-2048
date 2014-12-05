@@ -18,7 +18,30 @@ angular.module('Grid', [])
         this.generateEmptyGameBoard = function() {
             for (var i = 0; i < Math.pow(this.size, 2); i++) {
                 this.grid[i] = null;
-                this.tiles[i] = null;
+            }
+            this.initTiles();
+        };
+
+        // Apply callback function on each cell
+        this.forEachCell = function(cb) {
+            for (var i in this.tiles) {
+                var coordinate = this._positionToCoordinate(i);
+                cb(coordinate.x, coordinate.y, this.tiles[i]);
+            }
+        };
+
+        // Initialize tiles with null value
+        this.initTiles = function() {
+            this.forEachCell(function(x, y) {
+                self.setCellAt({x: x, y: y}, null);
+            })
+        };
+
+        // Set cell object by providing coordinate
+        this.setCellAt = function(coordinate, tile) {
+            if (this.isWithinGrid(coordinate)) {
+                var pos = this._coordinateToPosition(coordinate);
+                this.tiles[pos] = tile;
             }
         };
 
