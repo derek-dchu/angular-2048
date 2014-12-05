@@ -5,16 +5,18 @@ describe('Game module', function() {
 
         var provide;
 
-        var _gridService;
+        var _gridManager;
         beforeEach(module(function($provide) {
             // Create mocked gridService for this test
-            _gridService = {
+            _gridManager = {
                 anyCellsAvailable: angular.noop,
-                tileMatchesAvailable: angular.noop
+                tileMatchesAvailable: angular.noop,
+                generateEmptyGameBoard: angular.noop,
+                initGameBoard: angular.noop
             };
 
-            // Replace real GridService with mocked one
-            $provide.value('GridService', _gridService);
+            // Replace real GridManager with mocked one
+            $provide.value('GridManager', _gridManager);
 
             provide = $provide;
         }));
@@ -41,6 +43,24 @@ describe('Game module', function() {
             });
         });
 
+        describe('.newGame', function() {
+            it('should call the GridManager to generate an empty game board', function() {
+               spyOn(_gridManager, 'generateEmptyGameBoard').andCallThrough();
+               gameManager.newGame();
+               expect(_gridManager.generateEmptyGameBoard).toHaveBeenCalled();
+           });
+            it('should call the GridManager to place initial pieces', function() {
+                spyOn(_gridManager, 'initGameBoard').andCallThrough();
+                gameManager.newGame();
+                expect(_gridManager.initGameBoard).toHaveBeenCalled();
+            });
+            it('should call reinit at the end', function() {
+                spyOn(gameManager, 'reinit').andCallThrough();
+                gameManager.newGame();
+                expect(gameManager.reinit).toHaveBeenCalled();
+            });
+        });
+
         describe('.updateScore', function() {
             it('should update current score', function() {
                 gameManager.updateScore(1);
@@ -56,19 +76,19 @@ describe('Game module', function() {
 
         describe('.movesAvailable', function() {
             it('should report true if there are cells available', function() {
-                spyOn(_gridService, 'anyCellsAvailable').andReturn(true);
+                spyOn(_gridManager, 'anyCellsAvailable').andReturn(true);
                 expect(gameManager.moveAvailable()).toBeTruthy();
             });
 
             it('should report true if there are matched available', function() {
-                spyOn(_gridService, 'anyCellsAvailable').andReturn(false);
-                spyOn(_gridService, 'tileMatchesAvailable').andReturn(true);
+                spyOn(_gridManager, 'anyCellsAvailable').andReturn(false);
+                spyOn(_gridManager, 'tileMatchesAvailable').andReturn(true);
                 expect(gameManager.moveAvailable()).toBeTruthy();
             });
 
             it('should report false if there are no cells nor matched available', function() {
-                spyOn(_gridService, 'anyCellsAvailable').andReturn(false);
-                spyOn(_gridService, 'tileMatchesAvailable').andReturn(false);
+                spyOn(_gridManager, 'anyCellsAvailable').andReturn(false);
+                spyOn(_gridManager, 'tileMatchesAvailable').andReturn(false);
                 expect(gameManager.moveAvailable()).toBeFalsy();
             });
         });
