@@ -2,7 +2,7 @@
 
 angular.module('Game', ['Grid'])
 
-.service('GameManager', ['GridService', function(GridService) {
+.service('GameManager', ['GridManager', function(GridManager) {
     // initialize service
     this.reinit = function() {
         this.currentScore = 0;
@@ -11,7 +11,11 @@ angular.module('Game', ['Grid'])
     this.reinit();
 
     // Create a new game
-    this.newGame = function() {};
+    this.newGame = function() {
+        GridManager.generateEmptyGameBoard();
+        GridManager.initGameBoard();
+        this.reinit();
+    };
     // Handle user action
     this.move = function() {};
     // Update the score
@@ -23,7 +27,7 @@ angular.module('Game', ['Grid'])
     };
     // Check is there any move left
     this.moveAvailable = function() {
-        return GridService.anyCellsAvailable() || GridService.tileMatchesAvailable();
+        return GridManager.anyCellsAvailable() || GridManager.tileMatchesAvailable();
     };
     // Get best score
     this.getBestScore = function() {
