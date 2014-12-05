@@ -41,13 +41,10 @@ describe('Grid', function() {
            });
 
            it('should clear out the tiles array with nulls', function() {
-               var tiles = [];
-               for (var i = 0; i < Math.pow(gridManager.size, 2); i++) {
-                   tiles.push(i);
-               }
-               gridManager.tiles = tiles;
                gridManager.generateEmptyGameBoard();
-               expect(gridManager.tiles).toEqual(nullArr);
+               for (var i in gridManager.tiles) {
+                   expect(gridManager.tiles[i].values).toEqual(nullArr);
+               }
            });
        });
 
