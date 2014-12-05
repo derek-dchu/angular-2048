@@ -6,6 +6,8 @@ angular.module('Grid', [])
         this.tiles = [];
         // Size of the game board
         this.size = 4;
+        // Initial Number of tiles
+        this.initTileNumber = 2;
 
         var directions = {
             'left': { x: -1, y: 0 },
@@ -100,13 +102,12 @@ angular.module('Grid', [])
 
 .factory('TileModel', function() {
         var Tile = function(coordinate, val) {
-            this.x = coordinate.x;
-            this.y = coordinate.y;
+            this.coordinate = coordinate;
             this.value = val || 2;
         };
 
         Tile.prototype.getPosition = function() {
-            return {x:this.x, y:this.y};
+            return this.coordinate;
         };
 
         return Tile;

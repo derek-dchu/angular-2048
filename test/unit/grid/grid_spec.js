@@ -48,6 +48,8 @@ describe('Grid', function() {
            });
        });
 
+
+
         describe('.tileMatchesAvailable', function() {
             it('should return true when there are matches available', function() {
                 var tiles = [];
@@ -78,10 +80,10 @@ describe('Grid', function() {
         });
 
         it('should save its own x coordinate', function() {
-            expect(tile.x).toEqual(1);
+            expect(tile.coordinate.x).toEqual(1);
         });
         it('should save its own y coordinate', function() {
-            expect(tile.y).toEqual(1);
+            expect(tile.coordinate.y).toEqual(1);
         });
         it('should save its own value', function() {
             expect(tile.value).toEqual(2);
