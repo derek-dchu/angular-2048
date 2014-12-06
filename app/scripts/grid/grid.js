@@ -26,9 +26,9 @@ angular.module('Grid', [])
 
         // Apply callback function on each cell
         this.forEachCell = function(cb) {
-            for (var i in this.tiles) {
+            for (var i = 0; i < Math.pow(this.size, 2); i++) {
                 var coordinate = this._positionToCoordinate(i);
-                cb(coordinate.x, coordinate.y, this.tiles[i]);
+                cb(coordinate, this.tiles[i]);
             }
         };
 
@@ -69,6 +69,21 @@ angular.module('Grid', [])
             }
 
             return false;
+        };
+
+        // Return coordinates of cells that don't contain a tile
+        this.availableCells = function() {
+            var cells = [],
+                self = this;
+
+            this.forEachCell(function(coordinate) {
+                var tile = self.getCellAt(coordinate);
+                if (!tile) {
+                    cells.push(coordinate);
+                }
+            });
+
+            return cells;
         };
 
         // Convert position into actual coordinate
