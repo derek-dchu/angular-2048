@@ -21,34 +21,30 @@ describe('Grid', function() {
     });
 
     describe('GridManager', function() {
-       describe('.generateEmptyGameBoard', function() {
-           var nullArr;
-           beforeEach(function() {
-               nullArr = [];
-               for (var i = 0; i < 16; i++) {
-                   nullArr.push(null);
+        describe('.generateEmptyGameBoard', function() {
+            var nullArr;
+            beforeEach(function() {
+                nullArr = [];
+                for (var i = 0; i < Math.pow(gridManager.size, 2); i++) {
+                    nullArr.push(null);
+                }
+            });
+
+            it('should clear out the grid array with nulls', function() {
+                var grid = [];
+                for (var i = 0; i < Math.pow(gridManager.size, 2); i++) {
+                    grid.push(i);
                }
-           });
+                gridManager.grid = grid;
+                gridManager.generateEmptyGameBoard();
+                expect(gridManager.grid).toEqual(nullArr);
+            });
 
-           it('should clear out the grid array with nulls', function() {
-               var grid = [];
-               for (var i = 0; i < Math.pow(gridManager.size, 2); i++) {
-                  grid.push(i);
-               }
-               gridManager.grid = grid;
-               gridManager.generateEmptyGameBoard();
-               expect(gridManager.grid).toEqual(nullArr);
-           });
-
-           it('should clear out the tiles array with nulls', function() {
-               gridManager.generateEmptyGameBoard();
-               for (var i in gridManager.tiles) {
-                   expect(gridManager.tiles[i].values).toEqual(nullArr);
-               }
-           });
-       });
-
-
+            it('should clear out the tiles array with nulls', function() {
+                gridManager.generateEmptyGameBoard();
+                expect(gridManager.tiles).toEqual(nullArr);
+            });
+        });
 
         describe('.tileMatchesAvailable', function() {
             it('should return true when there are matches available', function() {
