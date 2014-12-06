@@ -1,9 +1,15 @@
 <div id="content" ng-controller="GameController as gctrl">
     <div class="row">
-        <grid></grid>
-        <div class="user-board">
-            <div class="score">{{ gctrl.game.currentScore }}</div>
-            <div class="best-score">{{ gctrl.game.bestScore }}</div>
+        <div id="game-board" class="col-md-9">
+            <grid ng-model="gctrl.grid"></grid>
+        </div>
+        <div id="user-board" class="col-md-3">
+            <div class="score">
+                <p>Current Score: {{ gctrl.game.currentScore }}</p>
+            </div>
+            <div class="best-score">
+                <p>Best Score: {{ gctrl.game.bestScore }}</p>
+            </div>
         </div>
     </div>
 </div>
