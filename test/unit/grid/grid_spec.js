@@ -78,6 +78,19 @@ describe('Grid', function() {
             });
         });
 
+        describe('.removeTile', function() {
+            it('should remove a tile by setting it to null', function() {
+                gridManager.generateEmptyGameBoard();
+                var tile = new tileModel({x: 0, y: 0}, 2);
+                for (var i = 0; i < Math.pow(gridManager.size, 2); i++) {
+                    gridManager.tiles[i] = tile;
+                }
+                var cell = {x: 0, y: 0};
+                gridManager.removeTile(cell);
+                expect(gridManager.getCellAt(cell)).toBeNull();
+            });
+        });
+
         describe('.tileMatchesAvailable', function() {
             it('should return true when there are matches available', function() {
                 var tiles = [];
