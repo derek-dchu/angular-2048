@@ -3,7 +3,7 @@ angular.module('Grid')
         return {
             restrict: 'E',
             scope: {
-                ngModel: '='
+                tile: '='
             },
             replace: true,
             templateUrl: 'scripts/grid/tile.html'
