@@ -1,7 +1,19 @@
 'use strict';
 
 angular.module('Grid', [])
-.service('GridManager', function() {
+.factory('TileModel', function() {
+    var Tile = function(coordinate, val) {
+        this.coordinate = coordinate;
+        this.value = val || 2;
+    };
+
+    Tile.prototype.getPosition = function() {
+        return this.coordinate;
+    };
+
+    return Tile;
+})
+.service('GridManager', ['TileModel', function(TileModel) {
         this.grid = [];
         this.tiles = [];
         // Size of the game board
@@ -133,17 +145,4 @@ angular.module('Grid', [])
         this.isWithinGrid = function(coordinate) {
             return coordinate.x >= 0 && coordinate.x < this.size && coordinate.y >= 0 && coordinate.y < this.size
         };
-    })
-
-.factory('TileModel', function() {
-        var Tile = function(coordinate, val) {
-            this.coordinate = coordinate;
-            this.value = val || 2;
-        };
-
-        Tile.prototype.getPosition = function() {
-            return this.coordinate;
-        };
-
-        return Tile;
-    });
+    }]);
