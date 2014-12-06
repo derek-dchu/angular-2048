@@ -1,0 +1,83 @@
+$width: 400px;        // The width of the game board
+$size: 4;             // The size of the game board (n x n)
+$cell-padding: 15px;   // The padding between cells
+$cell-size: ($width - $cell-padding * ($size + 1)) / $size; // Actual size of each cell
+
+$colors: (
+        2: #EEE4DA,     // 2
+        4: #EAE0C8,     // 4
+        8: #F59563,     // 8
+        16: #3399ff,    // 16
+        32: #ffa333,    // 32
+        64: #cef030,    // 64
+        128: #E8D8CE,   // 128
+        256: #990303,   // 256
+        512: #6BA5DE,   // 512
+        1024: #DCAD60,  // 1024
+        2048: #B60022   // 2048
+);
+
+/* Game Board */
+#game-board {
+  position: relative;
+  width: $width;
+  height: $width; // Square game board
+
+  .grid-container {
+    position: absolute;
+    z-index: 1;
+    margin: 0 auto; // Center the grid
+
+    .grid-cell {
+      width: $cell-size;
+      height: $cell-size; // Square cell
+      margin-bottom: $cell-padding;
+      margin-right: $cell-padding;
+      float: left;
+      background: rgba(238, 228, 218, 0.35);
+    }
+  }
+
+  .tile-container {
+    position: absolute;
+    z-index: 2;
+
+    .tile { // Same size of an empty cell
+      position: absolute;
+      width: $cell-size;
+      height: $cell-size;
+
+      @for $x from 1 through $size {
+        @for $y from 1 through $size {
+          $offsetX: $x - 1;
+          $offsetY: $y - 1;
+          $positionX: ($cell-size + $cell-padding) * $offsetX;
+          $positionY: ($cell-size + $cell-padding) * $offsetY;
+
+          &.position-#{$offsetX}-#{$offsetY} {
+            -webkit-transform: translate($positionY, $positionX);
+            transform: translate($positionY, $positionX);
+          }
+        }
+      }
+
+      @each $i, $color in $colors {
+        &.tile-#{$i} .tile-inner {
+          background: $color;
+        }
+      }
+
+      .tile-inner {
+        line-height: $cell-size;
+
+        text-align: center;
+        font-weight: bold;
+        z-index: 10;
+        font-size: 2.5em;
+      }
+
+    }
+  }
+}
+
+/* User Board */
