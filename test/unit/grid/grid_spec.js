@@ -2,6 +2,26 @@ describe('Grid', function() {
     // Inject the Grid module into this test
     beforeEach(module('Grid'));
 
+    var tile;
+    describe('TileModel', function() {
+        beforeEach(function() {
+            tile = new tileModel({x:1, y: 1}, 2);
+        });
+
+        it('should save its own x coordinate', function() {
+            expect(tile.coordinate.x).toEqual(1);
+        });
+        it('should save its own y coordinate', function() {
+            expect(tile.coordinate.y).toEqual(1);
+        });
+        it('should save its own value', function() {
+            expect(tile.value).toEqual(2);
+        });
+        it('should be able to retrieve its own coordinate', function() {
+            expect(tile.getPosition()).toEqual({x:1, y:1});
+        });
+    });
+
     var gridManager;
     beforeEach(inject(function(GridManager) {
         gridManager = GridManager;
@@ -46,6 +66,18 @@ describe('Grid', function() {
             });
         });
 
+        describe('.availableCells', function() {
+            it('should return coordinates of cells that don\'t contain a tile', function() {
+                gridManager.generateEmptyGameBoard();
+                var tile = new tileModel({x: 0, y: 0}, 2);
+                for (var i = 0; i < Math.pow(gridManager.size, 2); i++) {
+                    gridManager.tiles[i] = tile;
+                }
+                gridManager.tiles[1] = gridManager.tiles[2] = null;
+                expect(gridManager.availableCells()).toEqual([{x: 0, y: 1}, {x: 0, y: 2}]);
+            });
+        });
+
         describe('.tileMatchesAvailable', function() {
             it('should return true when there are matches available', function() {
                 var tiles = [];
@@ -66,26 +98,6 @@ describe('Grid', function() {
                 gridManager.tiles = tiles;
                 expect(gridManager.tileMatchesAvailable()).toBeFalsy();
             });
-        });
-    });
-
-    var tile;
-    describe('TileModel', function() {
-        beforeEach(function() {
-            tile = new tileModel({x:1, y: 1}, 2);
-        });
-
-        it('should save its own x coordinate', function() {
-            expect(tile.coordinate.x).toEqual(1);
-        });
-        it('should save its own y coordinate', function() {
-            expect(tile.coordinate.y).toEqual(1);
-        });
-        it('should save its own value', function() {
-            expect(tile.value).toEqual(2);
-        });
-        it('should be able to retrieve its own coordinate', function() {
-            expect(tile.getPosition()).toEqual({x:1, y:1});
         });
     });
 });
