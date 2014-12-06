@@ -24,6 +24,35 @@ angular.module('Grid', [])
             }
         };
 
+        // Initialize game board (randomly insert initTileNumber of tiles
+        this.initGameBoard = function() {
+            for (var i = 0; i < this.initTileNumber; i++) {
+                this.insertTile();
+            }
+        };
+
+        // Check if there are any matches available
+        this.tileMatchesAvailable = function() {
+            for (var i = 0; i < Math.pow(this.size, 2); i++) {
+                var coordinate = this._positionToCoordinate(i);
+                var tile = this.tiles[i];
+
+                if(tile) {
+                    // Check all directions
+                    for (var direction in directions) {
+                        var direct = directions[direction];
+                        var cell = { x: coordinate.x + direct.x, y: coordinate.y + direct.y };
+                        var surroundings = this.getCellAt(cell);
+                        if (surroundings && surroundings.value == tile.value) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        };
+
         // Apply callback function on each cell
         this.forEachCell = function(cb) {
             for (var i = 0; i < Math.pow(this.size, 2); i++) {
@@ -47,28 +76,6 @@ angular.module('Grid', [])
                 return this.tiles[pos];
             }
             return null;
-        };
-
-        // Check if there are any matches available
-        this.tileMatchesAvailable = function() {
-            for (var i = 0; i < Math.pow(this.size, 2); i++) {
-                var coordinate = this._positionToCoordinate(i);
-                var tile = this.tiles[i];
-
-                if(tile) {
-                    // Check all directions
-                    for (var direction in directions) {
-                        var direct = directions[direction];
-                        var cell = { x: coordinate.x + direct.x, y: coordinate.y + direct.y };
-                        var surroundings = this.getCellAt(cell);
-                        if (surroundings && surroundings.value == tile.value) {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
         };
 
         // Return coordinates of cells that don't contain a tile
@@ -96,7 +103,7 @@ angular.module('Grid', [])
 
         // Insert new tile to a random available cell
         this.insertTile = function() {
-            var cell = this.availableCells(),
+            var cell = this.randomAvailableCells(),
                 tile = new TileModel(cell, 2);
             this.setCellAt(cell, tile);
         };
