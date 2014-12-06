@@ -86,6 +86,26 @@ angular.module('Grid', [])
             return cells;
         };
 
+        // Return a random selected available cell
+        this.randomAvailableCells = function() {
+            var cells = this.availableCells();
+            if (cells.length > 1) {
+                return cells[Math.floor(Math.random() * cells.length)];
+            }
+        };
+
+        // Insert new tile to a random available cell
+        this.insertTile = function() {
+            var cell = this.availableCells(),
+                tile = new TileModel(cell, 2);
+            this.setCellAt(cell, tile);
+        };
+
+        // Remove a current tile by setting it to null
+        this.removeTile = function(coordinate) {
+            this.setCellAt(coordinate, null);
+        };
+
         // Convert position into actual coordinate
         this._positionToCoordinate = function(i) {
             if (i < 0 || i >= Math.pow(this.size, 2)) {
