@@ -11,6 +11,10 @@ angular.module('Grid', [])
         return this.coordinate;
     };
 
+    Tile.prototype.updateCoordinate = function(newCoordinate) {
+        this.coordinate = newCoordinate;
+    };
+
     return Tile;
 })
 .service('GridManager', ['TileModel', function(TileModel) {
@@ -28,6 +32,11 @@ angular.module('Grid', [])
             'down': { x: 0, y: 1 }
         };
 
+        // Helper function for create an new tile
+        this.newTile = function(coordinate, val) {
+            return new TileModel(coordinate, val);
+        };
+
         // Generate empty game board with null for each cell
         this.generateEmptyGameBoard = function() {
             for (var i = 0; i < Math.pow(this.size, 2); i++) {
@@ -39,7 +48,7 @@ angular.module('Grid', [])
         // Initialize game board (randomly insert initTileNumber of tiles
         this.initGameBoard = function() {
             for (var i = 0; i < this.initTileNumber; i++) {
-                this.insertTile();
+                this.randomlyInsertTile();
             }
         };
 
@@ -63,6 +72,70 @@ angular.module('Grid', [])
             }
 
             return false;
+        };
+
+        // Return ordered coordinates in direction
+        this.coordinatesInDirection = function(key) {
+            var direction = directions[key];
+            var coordinates = {x: [], y: []};
+            for (var i = 0; i < this.size; i++) {
+                coordinates.x.push(i);
+                coordinates.y.push(i);
+            }
+            // Going right
+            if (direction.x > 0) {
+                coordinates.x = coordinates.x.reverse();
+            }
+            // Going down
+            if (direction.y > 0) {
+                coordinates.y = coordinates.y.reverse();
+            }
+            return coordinates;
+        };
+
+        // Return the next possible coordinate for a tile to move
+        this.nextAvailableCellInDirection = function(coordinate, key) {
+            var direction = directions[key];
+            var previous;
+
+            do {
+                previous = coordinate;
+                coordinate = {
+                    x: previous.x + direction.x,
+                    y: previous.y + direction.y
+                };
+            } while (this.isCellAvailable(coordinate));
+
+            return {
+                nextCoordinate: previous,
+                nextTile: this.getCellAt(coordinate)
+            }
+        };
+
+        // Check is a cell available at a given coordinate
+        this.isCellAvailable = function(coordinate) {
+            return this.isWithinGrid(coordinate) && !this.getCellAt(coordinate);
+        };
+
+        // Return coordinates of cells that don't contain a tile
+        this.availableCells = function() {
+            var cells = [];
+            var self = this;
+            this.forEachCell(function(coordinate) {
+                if (self.isCellAvailable(coordinate)) {
+                    cells.push(coordinate);
+                }
+            });
+
+            return cells;
+        };
+
+        // Return a random selected available cell
+        this.randomAvailableCell = function() {
+            var cells = this.availableCells();
+            if (cells.length > 1) {
+                return cells[Math.floor(Math.random() * cells.length)];
+            }
         };
 
         // Apply callback function on each cell
@@ -90,39 +163,29 @@ angular.module('Grid', [])
             return null;
         };
 
-        // Return coordinates of cells that don't contain a tile
-        this.availableCells = function() {
-            var cells = [],
-                self = this;
-
-            this.forEachCell(function(coordinate) {
-                var tile = self.getCellAt(coordinate);
-                if (!tile) {
-                    cells.push(coordinate);
-                }
-            });
-
-            return cells;
+        // Insert a tile to a cell
+        this.insertTile = function(tile) {
+            this.setCellAt(tile.coordinate, tile);
         };
 
-        // Return a random selected available cell
-        this.randomAvailableCells = function() {
-            var cells = this.availableCells();
-            if (cells.length > 1) {
-                return cells[Math.floor(Math.random() * cells.length)];
-            }
+        // Remove a current tile by delete it
+        this.removeTile = function(tile) {
+            var pos = this._coordinateToPosition(tile.coordinate);
+            delete this.tiles[pos];
         };
 
-        // Insert new tile to a random available cell
-        this.insertTile = function() {
-            var cell = this.randomAvailableCells(),
-                tile = new TileModel(cell, 2);
-            this.setCellAt(cell, tile);
+        // Insert a new tile to a random available cell
+        this.randomlyInsertTile = function() {
+            var cell = this.randomAvailableCell();
+            var tile = this.newTile(cell, 2);
+            this.setCellAt(tile.coordinate, tile);
         };
 
-        // Remove a current tile by setting it to null
-        this.removeTile = function(coordinate) {
-            this.setCellAt(coordinate, null);
+        // Move a tile to new coordinate
+        this.moveTile = function(tile, newCoordinate) {
+            this.setCellAt(tile.coordinate, null);
+            this.setCellAt(newCoordinate, tile);
+            tile.updateCoordinate(newCoordinate);
         };
 
         // Convert position into actual coordinate
