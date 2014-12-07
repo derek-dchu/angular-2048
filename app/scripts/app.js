@@ -12,4 +12,14 @@ app.controller('GameController', ['GameManager', 'GridManager', function(GameMan
   };
 
   this.newGame();
+
+  // Start game by binding key event to the game
+  this.startGame = function() {
+    var self = this;
+    KeyboardManager.on(function(key) {
+      self.game.move(key);
+    });
+  };
+
+  this.startGame();
 }]);
