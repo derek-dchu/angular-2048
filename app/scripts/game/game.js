@@ -7,8 +7,9 @@ angular.module('Game', ['Grid'])
     this.reinit = function() {
         this.currentScore = 0;
         this.bestScore = 0;
+        this.win = false;
+        this.gameOver =false;
     };
-    this.reinit();
 
     // Create a new game
     this.newGame = function() {
@@ -16,8 +17,10 @@ angular.module('Game', ['Grid'])
         GridManager.initGameBoard();
         this.reinit();
     };
+
     // Handle user action
     this.move = function() {};
+
     // Update the score
     this.updateScore = function(newScore) {
         this.currentScore = newScore;
@@ -25,10 +28,12 @@ angular.module('Game', ['Grid'])
             this.bestScore = this.currentScore;
         }
     };
+
     // Check is there any move left
     this.moveAvailable = function() {
         return GridManager.anyCellsAvailable() || GridManager.tileMatchesAvailable();
     };
+
     // Get best score
     this.getBestScore = function() {
         return this.bestScore;
