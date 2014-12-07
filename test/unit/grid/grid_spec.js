@@ -86,8 +86,8 @@ describe('Grid', function() {
                     gridManager.tiles[i] = tile;
                 }
                 var cell = {x: 0, y: 0};
-                gridManager.removeTile(cell);
-                expect(gridManager.getCellAt(cell)).toBeNull();
+                gridManager.removeTile(gridManager.tiles[0]);
+                expect(gridManager.getCellAt(cell)).toBeUndefined();
             });
         });
 
