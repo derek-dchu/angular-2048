@@ -228,4 +228,9 @@ angular.module('Grid', [])
         this.isWithinGrid = function(coordinate) {
             return coordinate.x >= 0 && coordinate.x < this.size && coordinate.y >= 0 && coordinate.y < this.size
         };
+
+        // Check if two coordinates are the same
+        this.areSameCoordinates = function(a, b) {
+            return a.x === b.x ? a.y === b.y : false;
+        }
     }]);
