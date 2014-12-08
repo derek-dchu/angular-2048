@@ -37,7 +37,6 @@ angular.module('Keyboard', [])
     };
 
     // Bind event handlers to get called when an event is fired
-    this.keyEventHandlers = [];
     this.on = function(cb) {
         this.keyEventHandlers.push(cb);
     };
