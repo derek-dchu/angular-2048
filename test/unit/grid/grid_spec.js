@@ -112,5 +112,19 @@ describe('Grid', function() {
                 expect(gridManager.tileMatchesAvailable()).toBeFalsy();
             });
         });
+
+        describe('.prepareTiles', function() {
+            it('should prepare tiles for move by reset them', function() {
+                var tiles = [];
+                for(var i = 0; i < Math.pow(gridManager.size, 2); i++) {
+                    var tile = new tileModel(gridManager._positionToCoordinate(i), i);
+                    tiles.push(tile);
+                }
+                gridManager.tiles = tiles;
+                gridManager.tiles[0].merged = true;
+                gridManager.prepareTiles();
+                expect(gridManager.tiles[0].merged).toBeFalsy();
+            });
+        });
     });
 });
