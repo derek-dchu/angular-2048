@@ -4,6 +4,7 @@ var app = angular.module('2048App', ['Game', 'Grid', 'Keyboard']);
 
 // Game Controller
 app.controller('GameController', ['GameManager', 'GridManager', 'KeyboardManager', function(GameManager, GridManager, KeyboardManager) {
+  KeyboardManager.init();
   this.game = GameManager;
   this.grid = GridManager;
 
