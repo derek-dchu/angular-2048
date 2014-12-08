@@ -14,6 +14,26 @@ describe('Keyboard module', function() {
             expect(keyboardManager).toBeDefined();
         });
 
+        describe('.init', function() {
+            it('should initialize $document to be binded with \'keydown\' event', function() {
+                keyboardManager.init();
+                var keyTriggered = 0;
+                var callback = function(key, e) {
+                    keyTriggered = key;
+                };
+                keyboardManager.keyEventHandlers = [callback];
+                var e = $.Event('keydown');
+                // click left
+                e.which = 37;
+                angular.element(window.document).triggerHandler(e);
+                expect(keyTriggered).toEqual('left');
+            });
+        });
+
+        beforeEach(function() {
+            keyboardManager.init();
+        });
+
         describe('.on', function() {
             it('should add new callback function into keyEventHandlers', function() {
                 var callback = function(key, e) {
@@ -32,22 +52,6 @@ describe('Keyboard module', function() {
                 };
                 keyboardManager.keyEventHandlers = [callback];
                 keyboardManager._handleKeyEvent('left');
-                expect(keyTriggered).toEqual('left');
-            });
-        });
-
-        describe('.init', function() {
-            it('should initialize $document to be binded with \'keydown\' event', function() {
-                keyboardManager.init();
-                var keyTriggered = 0;
-                var callback = function(key, e) {
-                    keyTriggered = key;
-                };
-                keyboardManager.keyEventHandlers = [callback];
-                var e = $.Event('keydown');
-                // click left
-                e.which = 37;
-                angular.element(window.document).triggerHandler(e);
                 expect(keyTriggered).toEqual('left');
             });
         });
