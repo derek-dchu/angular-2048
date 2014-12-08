@@ -69,8 +69,7 @@ angular.module('Grid', [])
                     for (var direction in directions) {
                         var direct = directions[direction];
                         var cell = { x: coordinate.x + direct.x, y: coordinate.y + direct.y };
-                        var surroundings = this.getCellAt(cell);
-                        if (surroundings && surroundings.value == tile.value) {
+                        if (this.isWithinGrid(cell) && this.getCellAt(cell).value == tile.value) {
                             return true;
                         }
                     }
@@ -159,19 +158,14 @@ angular.module('Grid', [])
 
         // Set cell object by providing coordinate
         this.setCellAt = function(coordinate, tile) {
-            if (this.isWithinGrid(coordinate)) {
-                var pos = this._coordinateToPosition(coordinate);
-                this.tiles[pos] = tile;
-            }
+            var pos = this._coordinateToPosition(coordinate);
+            this.tiles[pos] = tile;
         };
 
         // Get cell object by providing coordinate
         this.getCellAt = function(coordinate) {
-            if (this.isWithinGrid(coordinate)) {
-                var pos = this._coordinateToPosition(coordinate);
-                return this.tiles[pos];
-            }
-            return null;
+            var pos = this._coordinateToPosition(coordinate);
+            return this.tiles[pos];
         };
 
         // Prepare tiles for move
@@ -203,9 +197,11 @@ angular.module('Grid', [])
 
         // Move a tile to new coordinate
         this.moveTile = function(tile, newCoordinate) {
-            this.setCellAt(tile.coordinate, null);
-            this.setCellAt(newCoordinate, tile);
-            tile.updateCoordinate(newCoordinate);
+            if (this.isWithinGrid(newCoordinate)) {
+                this.setCellAt(tile.coordinate, null);
+                this.setCellAt(newCoordinate, tile);
+                tile.updateCoordinate(newCoordinate);
+            }
         };
 
         // Convert position into actual coordinate
@@ -218,10 +214,7 @@ angular.module('Grid', [])
 
         // Convert coordinate into position
         this._coordinateToPosition = function(coordinate) {
-            if (this.isWithinGrid(coordinate)) {
-                return coordinate.x * this.size + coordinate.y;
-            }
-            return null;
+            return coordinate.x * this.size + coordinate.y;
         };
 
         // Check whether a given coordinate is outside the grid
