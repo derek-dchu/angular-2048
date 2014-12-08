@@ -1,0 +1,103 @@
+/* Game Board */
+#game-board {
+  position: relative;
+  width: 400px;
+  height: 400px; }
+  #game-board .grid-container {
+    position: absolute;
+    z-index: 1;
+    margin: 0 auto; }
+    #game-board .grid-container .grid-cell {
+      width: 81.25px;
+      height: 81.25px;
+      margin-bottom: 15px;
+      margin-right: 15px;
+      float: left;
+      background: rgba(238, 228, 218, 0.35); }
+  #game-board .tile-container {
+    position: absolute;
+    z-index: 2; }
+    #game-board .tile-container .tile {
+      position: absolute;
+      width: 81.25px;
+      height: 81.25px; }
+      #game-board .tile-container .tile.position-0-0 {
+        -webkit-transform: translate(0px, 0px);
+        transform: translate(0px, 0px); }
+      #game-board .tile-container .tile.position-0-1 {
+        -webkit-transform: translate(0px, 96.25px);
+        transform: translate(0px, 96.25px); }
+      #game-board .tile-container .tile.position-0-2 {
+        -webkit-transform: translate(0px, 192.5px);
+        transform: translate(0px, 192.5px); }
+      #game-board .tile-container .tile.position-0-3 {
+        -webkit-transform: translate(0px, 288.75px);
+        transform: translate(0px, 288.75px); }
+      #game-board .tile-container .tile.position-1-0 {
+        -webkit-transform: translate(96.25px, 0px);
+        transform: translate(96.25px, 0px); }
+      #game-board .tile-container .tile.position-1-1 {
+        -webkit-transform: translate(96.25px, 96.25px);
+        transform: translate(96.25px, 96.25px); }
+      #game-board .tile-container .tile.position-1-2 {
+        -webkit-transform: translate(96.25px, 192.5px);
+        transform: translate(96.25px, 192.5px); }
+      #game-board .tile-container .tile.position-1-3 {
+        -webkit-transform: translate(96.25px, 288.75px);
+        transform: translate(96.25px, 288.75px); }
+      #game-board .tile-container .tile.position-2-0 {
+        -webkit-transform: translate(192.5px, 0px);
+        transform: translate(192.5px, 0px); }
+      #game-board .tile-container .tile.position-2-1 {
+        -webkit-transform: translate(192.5px, 96.25px);
+        transform: translate(192.5px, 96.25px); }
+      #game-board .tile-container .tile.position-2-2 {
+        -webkit-transform: translate(192.5px, 192.5px);
+        transform: translate(192.5px, 192.5px); }
+      #game-board .tile-container .tile.position-2-3 {
+        -webkit-transform: translate(192.5px, 288.75px);
+        transform: translate(192.5px, 288.75px); }
+      #game-board .tile-container .tile.position-3-0 {
+        -webkit-transform: translate(288.75px, 0px);
+        transform: translate(288.75px, 0px); }
+      #game-board .tile-container .tile.position-3-1 {
+        -webkit-transform: translate(288.75px, 96.25px);
+        transform: translate(288.75px, 96.25px); }
+      #game-board .tile-container .tile.position-3-2 {
+        -webkit-transform: translate(288.75px, 192.5px);
+        transform: translate(288.75px, 192.5px); }
+      #game-board .tile-container .tile.position-3-3 {
+        -webkit-transform: translate(288.75px, 288.75px);
+        transform: translate(288.75px, 288.75px); }
+      #game-board .tile-container .tile.tile-2 .tile-inner {
+        background: #EEE4DA; }
+      #game-board .tile-container .tile.tile-4 .tile-inner {
+        background: #EAE0C8; }
+      #game-board .tile-container .tile.tile-8 .tile-inner {
+        background: #F59563; }
+      #game-board .tile-container .tile.tile-16 .tile-inner {
+        background: #3399ff; }
+      #game-board .tile-container .tile.tile-32 .tile-inner {
+        background: #ffa333; }
+      #game-board .tile-container .tile.tile-64 .tile-inner {
+        background: #cef030; }
+      #game-board .tile-container .tile.tile-128 .tile-inner {
+        background: #E8D8CE; }
+      #game-board .tile-container .tile.tile-256 .tile-inner {
+        background: #990303; }
+      #game-board .tile-container .tile.tile-512 .tile-inner {
+        background: #6BA5DE; }
+      #game-board .tile-container .tile.tile-1024 .tile-inner {
+        background: #DCAD60; }
+      #game-board .tile-container .tile.tile-2048 .tile-inner {
+        background: #B60022; }
+      #game-board .tile-container .tile .tile-inner {
+        line-height: 81.25px;
+        text-align: center;
+        font-weight: bold;
+        z-index: 10;
+        font-size: 2.5em; }
+
+/* User Board */
+
+/*# sourceMappingURL=main.css.map */
