@@ -55,8 +55,8 @@ $colors: (
           $positionY: ($cell-size + $cell-padding) * $offsetY;
 
           &.position-#{$offsetX}-#{$offsetY} {
-            -webkit-transform: translate($positionY, $positionX);
-            transform: translate($positionY, $positionX);
+            -webkit-transform: translate($positionX, $positionY);
+            transform: translate($positionX, $positionY);
           }
         }
       }
