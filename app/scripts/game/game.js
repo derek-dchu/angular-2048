@@ -2,7 +2,7 @@
 
 angular.module('Game', ['Grid'])
 
-.service('GameManager', ['GridManager', function(GridManager) {
+.service('GameManager', ['$q', 'GridManager', function($q, GridManager) {
 
     this.grid = GridManager.grid;
     this.tiles = GridManager.tiles;
@@ -26,61 +26,63 @@ angular.module('Game', ['Grid'])
     // Handle user action
     this.move = function(key) {
         var self = this;
+        var loop = function() {
+            // If the game is over, user can't move
+            if (self.gameOver) { return false; }
+            var coordinates = GridManager.coordinatesInDirection(key);
+            var isValidMove = false;
 
-        // If the game is over, user can't move
-        if (self.gameOver) { return false; }
-        var coordinates = GridManager.coordinatesInDirection(key);
-        var isValidMove = false;
+            // Update Grid
+            GridManager.prepareTiles();
 
-        // Update Grid
-        GridManager.prepareTiles();
+            coordinates.x.forEach(function(x) {
+                coordinates.y.forEach(function(y) {
+                    // For each cell
+                    var originalCoordinate = {x: x, y: y};
+                    var tile = GridManager.getCellAt(originalCoordinate);
 
-        coordinates.x.forEach(function(x) {
-            coordinates.y.forEach(function(y) {
-                // For each cell
-                var originalCoordinate = {x: x, y: y};
-                var tile = GridManager.getCellAt(originalCoordinate);
+                    if (tile) {
+                        var cell = GridManager.nextAvailableCellInDirection(tile.coordinate, key),
+                            nextTile = cell.nextTile;
 
-                if (tile) {
-                    var cell = GridManager.nextAvailableCellInDirection(tile.coordinate, key),
-                        nextTile = cell.nextTile;
+                        // Find the next tile can be merged
+                        if(nextTile && nextTile.value === tile.value && !nextTile.merged) {
+                            // Perform merge
+                            var newValue = tile.value * 2;
+                            var mergedTile = GridManager.newTile(tile.coordinate, newValue);
+                            mergedTile.merged = true;
 
-                    // Find the next tile can be merged
-                    if(nextTile && nextTile.value === tile.value && !nextTile.merged) {
-                        // Perform merge
-                        var newValue = tile.value * 2;
-                        var mergedTile = GridManager.newTile(tile.coordinate, newValue);
-                        mergedTile.merged = true;
+                            // Insert new tile on top of current tile
+                            GridManager.insertTile(mergedTile);
+                            // Remove current tile
+                            GridManager.removeTile(tile);
+                            // Move merged tile and remove destination tile
+                            GridManager.moveTile(mergedTile, nextTile.coordinate);
 
-                        // Insert new tile on top of current tile
-                        GridManager.insertTile(mergedTile);
-                        // Remove current tile
-                        GridManager.removeTile(tile);
-                        // Move merged tile and remove destination tile
-                        GridManager.moveTile(mergedTile, nextTile.coordinate);
-
-                        self.updateScore(self.currentScore + newValue);
-                        if (newValue >= self.winningValue) {
-                            this.win = true;
+                            self.updateScore(self.currentScore + newValue);
+                            if (newValue >= self.winningValue) {
+                                this.win = true;
+                            }
+                            isValidMove = true;
+                        } if (!GridManager.areSameCoordinates(originalCoordinate, cell.nextCoordinate)) {
+                            GridManager.moveTile(tile, cell.nextCoordinate);
+                            isValidMove = true;
                         }
-                        isValidMove = true;
-                    } if (!GridManager.areSameCoordinates(originalCoordinate, cell.nextCoordinate)) {
-                        GridManager.moveTile(tile, cell.nextCoordinate);
-                        isValidMove = true;
                     }
-                }
+                });
             });
-        });
 
-        if (isValidMove) {
-            // Insert new tiles for next round
-            GridManager.randomlyInsertTile();
+            if (isValidMove) {
+                // Insert new tiles for next round
+                GridManager.randomlyInsertTile();
 
-            // If user won the game or there is no available move, game over
-            if (self.win || !self.moveAvailable()) {
-                self.gameOver = true;
+                // If user won the game or there is no available move, game over
+                if (self.win || !self.moveAvailable()) {
+                    self.gameOver = true;
+                }
             }
-        }
+        };
+        return $q.when(loop());
     };
 
     // Update the score
