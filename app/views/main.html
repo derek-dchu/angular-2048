@@ -1,5 +1,6 @@
 <div id="content" ng-controller="GameController as gctrl">
     <div class="row">
+        {{ gctrl.gameManager.tiles }}
         <div id="game-board" class="col-md-9">
             <div grid ng-model="gctrl.gameManager"></div>
         </div>
