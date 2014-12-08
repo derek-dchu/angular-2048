@@ -59,7 +59,7 @@ angular.module('Grid', [])
         };
 
         // Check if there are any matches available
-        this.tileMatchesAvailable = function() {
+        this.isTileMatchesAvailable = function() {
             for (var i = 0; i < Math.pow(this.size, 2); i++) {
                 var coordinate = this._positionToCoordinate(i);
                 var tile = this.tiles[i];
@@ -118,7 +118,7 @@ angular.module('Grid', [])
             }
         };
 
-        // Check is a cell available at a given coordinate
+        // Check to see there is a cell available at a given coordinate
         this.isCellAvailable = function(coordinate) {
             return this.isWithinGrid(coordinate) && !this.getCellAt(coordinate);
         };
@@ -134,6 +134,11 @@ angular.module('Grid', [])
             });
 
             return cells;
+        };
+
+        // Check to see there are still cells available
+        this.isAnyCellAvailable = function() {
+            return this.availableCells().length > 0;
         };
 
         // Return a random selected available cell
