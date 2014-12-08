@@ -37,7 +37,6 @@ angular.module('Game', ['Grid'])
 
         coordinates.x.forEach(function(x) {
             coordinates.y.forEach(function(y) {
-                console.log(GridManager.tiles);
                 // For each cell
                 var originalCoordinate = {x: x, y: y};
                 var tile = GridManager.getCellAt(originalCoordinate);
