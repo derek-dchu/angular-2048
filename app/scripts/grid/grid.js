@@ -2,10 +2,13 @@
 
 angular.module('Grid', [])
 .factory('TileModel', function() {
+    var id = 16; // skip index
+
     var Tile = function(coordinate, val) {
         this.coordinate = coordinate;
         this.value = val || 2;
         this.merged = false;
+        this.id = id++;
     };
 
     Tile.prototype.getPosition = function() {
