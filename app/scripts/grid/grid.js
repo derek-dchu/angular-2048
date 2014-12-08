@@ -5,6 +5,7 @@ angular.module('Grid', [])
     var Tile = function(coordinate, val) {
         this.coordinate = coordinate;
         this.value = val || 2;
+        this.merged = false;
     };
 
     Tile.prototype.getPosition = function() {
@@ -13,6 +14,11 @@ angular.module('Grid', [])
 
     Tile.prototype.updateCoordinate = function(newCoordinate) {
         this.coordinate = newCoordinate;
+    };
+
+    // Reset tile to initial state.
+    Tile.prototype.reset = function() {
+        this.merged = false;
     };
 
     return Tile;
