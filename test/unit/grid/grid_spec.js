@@ -126,5 +126,28 @@ describe('Grid', function() {
                 expect(gridManager.tiles[0].merged).toBeFalsy();
             });
         });
+
+        describe('.moveTile', function() {
+            var tile;
+            beforeEach(function() {
+                var nullArr = [];
+                for (var i = 0; i < Math.pow(gridManager.size, 2); i++) {
+                    nullArr.push(null);
+                }
+                gridManager.tiles = nullArr;
+                tile = gridManager.tiles[0] = new tileModel({x:0 , y: 0}, 2);
+                gridManager.moveTile(tile, {x: 0, y: 1});
+            });
+            it('should move tile to a new coordinate', function() {
+
+                expect(gridManager.tiles[1]).toEqual(tile);
+            });
+            it('should set original coordinate to null', function() {
+                expect(gridManager.tiles[0]).toBeNull();
+            });
+            it('should update tile\'s coordinate', function() {
+                expect(tile.coordinate).toEqual({x: 0, y: 1});
+            });
+        });
     });
 });
