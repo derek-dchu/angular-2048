@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('Game', ['Grid'])
+angular.module('Game', ['Grid', 'ngCookies'])
 
-.service('GameManager', ['$q', 'GridManager', function($q, GridManager) {
+.service('GameManager', ['$q', 'GridManager', '$cookieStore', function($q, GridManager, $cookieStore) {
 
     this.grid = GridManager.grid;
     this.tiles = GridManager.tiles;
@@ -11,9 +11,9 @@ angular.module('Game', ['Grid'])
     // initialize service
     this.reinit = function() {
         this.currentScore = 0;
-        this.bestScore = 0;
+        this.bestScore = this.getBestScore();
         this.win = false;
-        this.gameOver =false;
+        this.gameOver = false;
     };
 
     // Create a new game
@@ -90,6 +90,7 @@ angular.module('Game', ['Grid'])
         this.currentScore = newScore;
         if (this.currentScore > this.bestScore) {
             this.bestScore = this.currentScore;
+            $cookieStore.put('bestScore', this.currentScore);
         }
     };
 
@@ -100,6 +101,6 @@ angular.module('Game', ['Grid'])
 
     // Get best score
     this.getBestScore = function() {
-        return this.bestScore;
+        return parseInt($cookieStore.get('bestScore')) || 0;
     };
 }]);
