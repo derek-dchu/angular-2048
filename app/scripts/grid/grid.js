@@ -169,6 +169,15 @@ angular.module('Grid', [])
             return null;
         };
 
+        // Prepare tiles for move
+        this.prepareTiles = function() {
+            this.forEachCell(function(coordinate, tile) {
+                if (tile) {
+                    tile.reset();
+                }
+            });
+        };
+
         // Insert a tile to a cell
         this.insertTile = function(tile) {
             this.setCellAt(tile.coordinate, tile);
