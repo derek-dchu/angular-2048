@@ -1,10 +1,9 @@
-<div>
-    <div class="grid-container">
-        <div class="grid-cell"
-             ng-repeat="cell in ngModel.grid track by $index"></div>
-    </div>
-    <div class="tile-container">
-        <tile tile="tile"
-              ng-repeat="tile in ngModel.tiles track by $index"></tile>
-    </div>
+<div class="grid-container">
+    <div class="grid-cell"
+         ng-repeat="cell in ngModel.grid track by $index"></div>
+</div>
+<div class="tile-container">
+    <div tile
+         ng-model="tile"
+         ng-repeat="tile in ngModel.tiles track by $id(tile.id || $index)"></div>
 </div>
