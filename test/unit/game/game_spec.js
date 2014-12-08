@@ -9,8 +9,8 @@ describe('Game module', function() {
         beforeEach(module(function($provide) {
             // Create mocked gridService for this test
             _gridManager = {
-                anyCellsAvailable: angular.noop,
-                tileMatchesAvailable: angular.noop,
+                isAnyCellAvailable: angular.noop,
+                isTileMatchesAvailable: angular.noop,
                 generateEmptyGameBoard: angular.noop,
                 initGameBoard: angular.noop
             };
@@ -76,19 +76,19 @@ describe('Game module', function() {
 
         describe('.movesAvailable', function() {
             it('should report true if there are cells available', function() {
-                spyOn(_gridManager, 'anyCellsAvailable').andReturn(true);
+                spyOn(_gridManager, 'isAnyCellAvailable').andReturn(true);
                 expect(gameManager.moveAvailable()).toBeTruthy();
             });
 
             it('should report true if there are matched available', function() {
-                spyOn(_gridManager, 'anyCellsAvailable').andReturn(false);
-                spyOn(_gridManager, 'tileMatchesAvailable').andReturn(true);
+                spyOn(_gridManager, 'isAnyCellAvailable').andReturn(false);
+                spyOn(_gridManager, 'isTileMatchesAvailable').andReturn(true);
                 expect(gameManager.moveAvailable()).toBeTruthy();
             });
 
             it('should report false if there are no cells nor matched available', function() {
-                spyOn(_gridManager, 'anyCellsAvailable').andReturn(false);
-                spyOn(_gridManager, 'tileMatchesAvailable').andReturn(false);
+                spyOn(_gridManager, 'isAnyCellAvailable').andReturn(false);
+                spyOn(_gridManager, 'isTileMatchesAvailable').andReturn(false);
                 expect(gameManager.moveAvailable()).toBeFalsy();
             });
         });

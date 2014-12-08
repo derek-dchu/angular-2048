@@ -99,7 +99,7 @@ describe('Grid', function() {
                     tiles.push(tile);
                 }
                 gridManager.tiles = tiles;
-                expect(gridManager.tileMatchesAvailable()).toBeTruthy();
+                expect(gridManager.isTileMatchesAvailable()).toBeTruthy();
             });
 
             it('should return false when none matches available', function() {
@@ -109,7 +109,7 @@ describe('Grid', function() {
                     tiles.push(tile);
                 }
                 gridManager.tiles = tiles;
-                expect(gridManager.tileMatchesAvailable()).toBeFalsy();
+                expect(gridManager.isTileMatchesAvailable()).toBeFalsy();
             });
         });
 
