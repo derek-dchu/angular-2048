@@ -1,5 +1,6 @@
-<div ng-if="tile" class="tile tile-{{ tile.value }} position-{{ tile.coordinate.x }}-{{ tile.coordinate.y }}">
+<div ng-if="ngModel" class="tile tile-{{ ngModel.value }} position-{{ ngModel.coordinate.x }}-{{ ngModel.coordinate.y }}">
     <div class="tile-inner">
-        {{ tile.value }}
+        {{ ngModel.value }}
+        {{ ngModel.id }}
     </div>
 </div>

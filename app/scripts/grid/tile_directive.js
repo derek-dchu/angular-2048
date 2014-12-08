@@ -1,11 +1,13 @@
+'use strict';
+
 angular.module('Grid')
 .directive('tile', function() {
         return {
-            restrict: 'E',
+            restrict: 'A',
+            require: 'ngModel',
             scope: {
-                tile: '='
+                ngModel: '='
             },
-            replace: true,
             templateUrl: 'scripts/grid/tile.html'
         }
     });
