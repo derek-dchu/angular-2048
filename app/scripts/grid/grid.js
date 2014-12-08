@@ -146,7 +146,7 @@ angular.module('Grid', [])
         // Return a random selected available cell
         this.randomAvailableCell = function() {
             var cells = this.availableCells();
-            if (cells.length > 1) {
+            if (cells.length > 0) {
                 return cells[Math.floor(Math.random() * cells.length)];
             }
         };
