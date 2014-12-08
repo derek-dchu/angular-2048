@@ -3,13 +3,12 @@
 var app = angular.module('2048App', ['Game', 'Grid', 'Keyboard']);
 
 // Game Controller
-app.controller('GameController', ['GameManager', 'GridManager', 'KeyboardManager', function(GameManager, GridManager, KeyboardManager) {
+app.controller('GameController', ['GameManager', 'KeyboardManager', function(GameManager, KeyboardManager) {
   KeyboardManager.init();
-  this.game = GameManager;
-  this.grid = GridManager;
+  this.gameManager = GameManager;
 
   this.newGame = function() {
-    this.game.newGame();
+    this.gameManager.newGame();
   };
 
   this.newGame();
@@ -18,7 +17,7 @@ app.controller('GameController', ['GameManager', 'GridManager', 'KeyboardManager
   this.startGame = function() {
     var self = this;
     KeyboardManager.on(function(key) {
-      self.game.move(key);
+      self.gameManager.move(key);
     });
   };
 
