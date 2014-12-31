@@ -200,11 +200,9 @@ angular.module('Grid', [])
 
         // Move a tile to new coordinate
         this.moveTile = function(tile, newCoordinate) {
-            if (this.isWithinGrid(newCoordinate)) {
-                this.setCellAt(tile.coordinate, null);
-                this.setCellAt(newCoordinate, tile);
-                tile.updateCoordinate(newCoordinate);
-            }
+            this.setCellAt(tile.coordinate, null);
+            this.setCellAt(newCoordinate, tile);
+            tile.updateCoordinate(newCoordinate);
         };
 
         // Convert position into actual coordinate
