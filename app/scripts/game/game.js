@@ -52,10 +52,10 @@ angular.module('Game', ['Grid', 'ngCookies'])
                             var mergedTile = GridManager.newTile(tile.coordinate, newValue);
                             mergedTile.merged = true;
 
-                            // Insert new tile on top of current tile
-                            GridManager.insertTile(mergedTile);
                             // Remove current tile
                             GridManager.removeTile(tile);
+                            // Insert new tile on top of current tile
+                            GridManager.insertTile(mergedTile);
                             // Move merged tile and remove destination tile
                             GridManager.moveTile(mergedTile, nextTile.coordinate);
 
@@ -64,7 +64,8 @@ angular.module('Game', ['Grid', 'ngCookies'])
                                 this.win = true;
                             }
                             isValidMove = true;
-                        } if (!GridManager.areSameCoordinates(originalCoordinate, cell.nextCoordinate)) {
+                        } else if (!GridManager.areSameCoordinates(originalCoordinate, cell.nextCoordinate)) {
+                            // Cant merge but there is available cell
                             GridManager.moveTile(tile, cell.nextCoordinate);
                             isValidMove = true;
                         }
