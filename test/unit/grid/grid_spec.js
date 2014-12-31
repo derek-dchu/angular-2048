@@ -149,5 +149,27 @@ describe('Grid', function() {
                 expect(tile.coordinate).toEqual({x: 0, y: 1});
             });
         });
+
+        describe('.nextAvailableCellInDirection', function() {
+            var tile,
+                nextTile;
+            beforeEach(function() {
+                var nullArr = [];
+                for (var i = 0; i < Math.pow(gridManager.size, 2); i++) {
+                    nullArr.push(null);
+                }
+                gridManager.tiles = nullArr;
+                nextTile = gridManager.tiles[0] = new tileModel({x:0 , y: 0}, 2);
+                tile = gridManager.tiles[3] = new tileModel({x:0 , y: 3}, 2);
+            });
+            it('should show the next available cell in direction: up is (0, 1)', function() {
+                var cell = gridManager.nextAvailableCellInDirection(tile.coordinate, 'up');
+                expect(cell.nextCoordinate).toEqual({x: 0, y: 1});
+            });
+            it('should show the next tile of next available cell in direction: up is (0, 0)', function() {
+                var cell = gridManager.nextAvailableCellInDirection(tile.coordinate, 'up');
+                expect(cell.nextTile).toEqual(nextTile);
+            });
+        });
     });
 });
