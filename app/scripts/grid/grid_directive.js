@@ -9,5 +9,5 @@ angular.module('Grid')
                 ngModel: '='
             },
             templateUrl: 'gridId.html'
-        }
+        };
     });

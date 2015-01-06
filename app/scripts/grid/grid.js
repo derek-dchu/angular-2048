@@ -117,7 +117,7 @@ angular.module('Grid', [])
             return {
                 nextCoordinate: previous,
                 nextTile: this.getCellAt(coordinate)
-            }
+            };
         };
 
         // Check to see there is a cell available at a given coordinate
@@ -220,11 +220,11 @@ angular.module('Grid', [])
 
         // Check whether a given coordinate is outside the grid
         this.isWithinGrid = function(coordinate) {
-            return coordinate.x >= 0 && coordinate.x < this.size && coordinate.y >= 0 && coordinate.y < this.size
+            return coordinate.x >= 0 && coordinate.x < this.size && coordinate.y >= 0 && coordinate.y < this.size;
         };
 
         // Check if two coordinates are the same
         this.areSameCoordinates = function(a, b) {
             return a.x === b.x ? a.y === b.y : false;
-        }
+        };
     }]);
