@@ -1,3 +1,5 @@
+var path =require('path');
+
 var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
     rename = require('gulp-rename'),
@@ -6,10 +8,11 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    ngAnnotate = require('gulp-ng-annotate');
+    ngAnnotate = require('gulp-ng-annotate'),
+    templateCache = require('gulp-angular-templatecache');
 
 gulp.task('default', function() {
-    gulp.start('sass', 'scripts')
+    gulp.start('sass', 'scripts', 'templates')
 });
 
 // Compile Sass, minify
@@ -37,4 +40,17 @@ gulp.task('scripts', function() {
        .on('error', function (err) { console.log(err.message); })
        .pipe(gulp.dest('dist/js'))
        .pipe(notify({ message: "Scripts task complete" }))
+});
+
+// Create AngularJS templatecache
+gulp.task('templates', function() {
+    return gulp.src(['app/views/**/*.html', 'app/scripts/**/*.html'])
+        .pipe(rename({suffix: 'Id'}))
+        .pipe(templateCache({standalone: true, base: function(file) { return path.basename(file.path) }}))
+        .pipe(gulp.dest('dist/js'))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(uglify())
+        .on('error', function (err) { console.log(err.message); })
+        .pipe(gulp.dest('dist/js'))
+        .pipe(notify({ message: "Templates task complete" }))
 });
