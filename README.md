@@ -8,15 +8,15 @@ This game requires [NodeJS](http://nodejs.org/) environment.
 
 After you install NodeJS, run following command to install required dependencies, and you are ready to go.
 ```
-> npm install
+$ npm install
 ```
 Usage
 =====
 Running the game
 ----------------
-Run following command to start the server.
+Run following command to start the test server.
 ```
-> npm start
+$ npm start
 ```
 Then, open your browser and navigate to 'http://localhost:8123'
 
@@ -24,7 +24,7 @@ Test
 ----
 Run following command to test it.
 ```
-> npm test
+$ npm test-single-run
 ```
 
 Deploy
@@ -33,7 +33,7 @@ This is an AngularJS application ready for deploying to any server.
 
 First, run following command to generate deployment ready files.
 ```
-> gulp
+$ gulp
 ```
 You will find new files in 'dist' folder.
 Directly serve js and css files within that folder, and place following 'div' element which contains all contents of the game into your html file.
