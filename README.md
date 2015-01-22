@@ -1,4 +1,4 @@
-angular-2048
+angular-2048  [![Build Status](https://travis-ci.org/derek-dchu/angular-2048.svg)](https://travis-ci.org/derek-dchu/angular-2048)
 ============
 A classic 2048 game built on AngularJS. It is based on the idea of [a small clone of 1024](https://github.com/gabrielecirulli/2048).
 
