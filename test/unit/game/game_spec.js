@@ -26,7 +26,7 @@ describe('Game module', function() {
             gameManager = GameManager;
         }));
 
-        it('should have a GameManage', function() {
+        it('should have a GameManager', function() {
             expect(gameManager).toBeDefined();
         });
 
